@@ -31,6 +31,20 @@ bool Enemy::init() {
 	return true;
 }
 
+void Enemy::update(float dt) {
+	checkGameOverCondition();
+}
+
+//Useful when/if I decide to add health system to player
+//TODO: add physics body to limit to check collision instead
+void Enemy::checkGameOverCondition() {
+	auto gameScene = (Game*)this->getScene();
+	if (this->getPosition().y + this->getBoundingBox().size.height/2 <= gameScene->limitY) { //when enemy touches the limit game over
+		gameScene->despawnEnemy(this);
+		gameScene->endGame();
+	}
+}
+
 void Enemy::initMovement() {
 	auto director = Director::getInstance();
 	auto visibleSize = director->getVisibleSize();
@@ -40,17 +54,7 @@ void Enemy::initMovement() {
 	auto moveByY = (origin.y - size.height / 2) - pos.y;
 	auto moveBy = MoveBy::create(_animationTime, Vec2(0, -size.height*2));
 	auto delay = DelayTime::create(_delay);
-	
-	auto callbackMoveTo = CallFunc::create([=]() {
-		auto gameScene = (Game*)this->getScene();
-		
-		if (this->getPosition().y <= gameScene->limitY) { //when enemy gets out of screen
-			gameScene->despawnEnemy(this);
-			gameScene->endGame();
-		}
-	});
-
-	auto seq = Sequence::create(moveBy, callbackMoveTo, delay, nullptr);
+	auto seq = Sequence::create(moveBy, delay, nullptr);
 	auto intervalAction = RepeatForever::create(seq);
 	this->runAction(intervalAction);
 }

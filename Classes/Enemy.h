@@ -13,7 +13,9 @@ public:
 	void spawn();
 	float delay = 1.0f;
 	float animationTime = 0.5f;
+	void update(float) override;
 private:
+	void checkGameOverCondition();
 	void initMovement();
 	int health;
 	int fireRate;

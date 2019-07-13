@@ -10,7 +10,7 @@ USING_NS_CC;
 Scene* Game::createScene() {
 	
 	auto scene = Game::create();
-	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_SHAPE); //debug physicsbody
+	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_SHAPE); //debug physicsbody
 	return scene;
 }
 
@@ -63,9 +63,10 @@ void Game::initLimit() {
 	auto lineY = origin.y + visibleSize.height*0.15f;
 	auto lineWidth = 10;
 	auto draw = DrawNode::create(); 
+	auto size = Size(visibleSize.width, lineWidth);
 	this->addChild(draw);
-	draw->setLineWidth(lineWidth);
 	draw->drawLine(Vec2(lineStartX,lineY), Vec2(lineEndX,lineY),Color4F(Color3B::WHITE,0.5f));
+	
 	this->limitY = lineY+lineWidth/2;
 }
 
