@@ -152,8 +152,8 @@ bool Game::onContactBegin(cocos2d::PhysicsContact &contact) {
 		bullet->removeFromParent();
 		this->addScore(100);
 	}
-	else if (A->getCategoryBitmask() == 0x1 && B->getCategoryBitmask() == 0x3) {//enemy hits limit
-		auto enemy = (Enemy*)A->getNode();
+	else if ((A->getCategoryBitmask() == 0x1 && B->getCategoryBitmask() == 0x3) ||
+			  A->getCategoryBitmask()== 0x3 && B->getCategoryBitmask()== 0x1) {//enemy hits limit
 		this->endGame();
 	}
 	return true;

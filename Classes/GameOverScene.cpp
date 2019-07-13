@@ -28,8 +28,11 @@ void GameOver::initializeButtons() {
 	auto visibleSize = director->getVisibleSize();
 	Vec2 origin = director->getVisibleOrigin();
 	auto middleX = origin.x + visibleSize.width / 2;
+	//gameover label
+	auto gameoverLabel = Label::createWithTTF("Game Over", "fonts/Marker Felt.ttf", 24);
+
 	//score label
-	auto scoreLabel = Label::createWithTTF("Score: 0", "fonts/Marker Felt.ttf", 24);
+	auto scoreLabel = Label::createWithTTF("Score: 1234567890", "fonts/Marker Felt.ttf", 16);
 	scoreLabel->setString("Score: " + std::to_string(score));
 	//restart game button
 	auto retryButton = cocos2d::ui::Button::create();
@@ -58,9 +61,11 @@ void GameOver::initializeButtons() {
 		}
 	});
 
+	gameoverLabel->setPosition(Vec2(middleX, origin.y + visibleSize.height*0.9f));
 	scoreLabel->setPosition(Vec2(middleX, origin.y + visibleSize.height*0.7f));
 	retryButton->setPosition(Vec2(middleX, origin.y + visibleSize.height / 2));
 	returnButton->setPosition(Vec2(middleX, origin.y + visibleSize.height*0.3f));
+	this->addChild(gameoverLabel);
 	this->addChild(scoreLabel);
 	this->addChild(retryButton);
 	this->addChild(returnButton);
