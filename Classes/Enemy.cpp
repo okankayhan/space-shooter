@@ -2,7 +2,7 @@
 #include "GameScene.h"
 USING_NS_CC;
 
-static const float _animationTime = 0.5f;
+static const float _animationTime = 0.5f; //using these to sync up new spawning enemies
 static const float _delay = 5.0f;
 
 Sprite* Enemy::createSprite() {

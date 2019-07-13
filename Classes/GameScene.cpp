@@ -143,7 +143,6 @@ bool Game::onContactBegin(cocos2d::PhysicsContact &contact) {
 		bullet->setVisible(false);
 		bullet->removeFromParent();
 		this->addScore(100);
-		log("call1");
 	}
 	else if (A->getCategoryBitmask() == 0x1 && B->getCategoryBitmask() == 0x2) {//enemy hits bullet ?!
 		auto enemy = (Enemy*)A->getNode();
@@ -152,12 +151,10 @@ bool Game::onContactBegin(cocos2d::PhysicsContact &contact) {
 		bullet->setVisible(false);
 		bullet->removeFromParent();
 		this->addScore(100);
-		log("call2");
 	}
 	else if (A->getCategoryBitmask() == 0x1 && B->getCategoryBitmask() == 0x3) {//enemy hits limit
 		auto enemy = (Enemy*)A->getNode();
 		this->endGame();
-		log("call3");
 	}
 	return true;
 }
@@ -229,6 +226,5 @@ void Game::initializeGrid() {
 		}
 	}
 
-	//should initialize enemy pool here
 	log("grid initialized");
 }
