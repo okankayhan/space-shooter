@@ -16,9 +16,8 @@ bool Bullet::init() {
 	auto rect = this->getTextureRect();
 
 	auto physicsBody = PhysicsBody::createBox(rect.size, PhysicsMaterial(0.1f, 1.0f, 0.0f));
-	physicsBody->setCategoryBitmask(0x02);
-	physicsBody->setCollisionBitmask(0x01);
-	physicsBody->setContactTestBitmask(0x01);
+	physicsBody->setCategoryBitmask(0x2);
+	physicsBody->setContactTestBitmask(0x1);
 	physicsBody->setDynamic(false);
 	this->addComponent(physicsBody);
 

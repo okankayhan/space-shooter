@@ -54,6 +54,9 @@ void Game::update(float delta) {
 	}
 }
 
+/**
+* Set up a limit line as a game over condition
+*/
 void Game::initLimit() {
 	auto director = Director::getInstance();
 	auto visibleSize = director->getVisibleSize();
@@ -66,7 +69,17 @@ void Game::initLimit() {
 	auto size = Size(visibleSize.width, lineWidth);
 	this->addChild(draw);
 	draw->drawLine(Vec2(lineStartX,lineY), Vec2(lineEndX,lineY),Color4F(Color3B::WHITE,0.5f));
-	
+	auto node = Node::create();
+	node->setPosition(300, 300);
+	auto physicsBody = PhysicsBody::createBox(size, PhysicsMaterial(0.1f, 1.0f, 0.0f));
+	node->setContentSize(Size(abs(lineEndX - lineStartX), lineWidth));
+	node->setPosition(Vec2(origin.x + visibleSize.width / 2, lineY));
+	node->setAnchorPoint(Vec2(0.5f,0.5f));
+	physicsBody->setCategoryBitmask(0x3);
+	physicsBody->setContactTestBitmask(0x1);
+	physicsBody->setDynamic(false);
+	node->addComponent(physicsBody);
+	this->addChild(node);
 	this->limitY = lineY+lineWidth/2;
 }
 
@@ -122,22 +135,29 @@ void Game::spawnPlayer() {
 bool Game::onContactBegin(cocos2d::PhysicsContact &contact) {
 	PhysicsBody* A = contact.getShapeA()->getBody();
 	PhysicsBody* B = contact.getShapeB()->getBody();
-
-	if (A->getCategoryBitmask() == 0x02 && B->getCategoryBitmask() == 0x01) {//bullet hits enemy
-		auto bullet = (Bullet*)A->getNode();
+	
+	if (A->getCategoryBitmask() == 0x2 && B->getCategoryBitmask() == 0x1) {//bullet hits enemy
+		auto bullet = A->getNode();
 		auto enemy = (Enemy*)B->getNode();
 		this->despawnEnemy(enemy);
 		bullet->setVisible(false);
 		bullet->removeFromParent();
 		this->addScore(100);
+		log("call1");
 	}
-	else if (A->getCategoryBitmask() == 0x01 && B->getCategoryBitmask() == 0x02) {//enemy hits bullet ?!
+	else if (A->getCategoryBitmask() == 0x1 && B->getCategoryBitmask() == 0x2) {//enemy hits bullet ?!
 		auto enemy = (Enemy*)A->getNode();
-		auto bullet = (Bullet*)B->getNode();
+		auto bullet = B->getNode();
 		this->despawnEnemy(enemy);
 		bullet->setVisible(false);
 		bullet->removeFromParent();
 		this->addScore(100);
+		log("call2");
+	}
+	else if (A->getCategoryBitmask() == 0x1 && B->getCategoryBitmask() == 0x3) {//enemy hits limit
+		auto enemy = (Enemy*)A->getNode();
+		this->endGame();
+		log("call3");
 	}
 	return true;
 }

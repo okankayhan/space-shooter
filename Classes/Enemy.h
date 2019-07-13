@@ -11,9 +11,8 @@ public:
 	CREATE_FUNC(Enemy);
 	void despawn();
 	void spawn();
-	float delay = 1.0f;
-	float animationTime = 0.5f;
-	void update(float) override;
+	float delay;
+	float animationTime;
 private:
 	void checkGameOverCondition();
 	void initMovement();
