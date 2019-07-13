@@ -210,7 +210,7 @@ void Game::initializeGrid() {
 	auto enemySpawnMinX = origin.x + enemySize.width;
 
 	auto enemySpawnMaxY = origin.y + visibleSize.height - enemySize.height;
-	auto enemySpawnMinY = (origin.y + visibleSize.height) * 0.4f; //20% of screen top
+	auto enemySpawnMinY = (origin.y + visibleSize.height) * 0.4f; //40% of screen top
 
 	auto spawnAreaWidth = abs(enemySpawnMaxX - enemySpawnMinX);
 	auto spawnAreaHeight = abs(enemySpawnMaxY - enemySpawnMinY);
